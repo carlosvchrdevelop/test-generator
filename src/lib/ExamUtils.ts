@@ -1,4 +1,4 @@
-import type { MapAnswerType, TExam, TQuestion } from './Types';
+import type { MapAnswerType, Options, TExam, TQuestion } from './Types';
 
 export const parseCSV = (csv: string, separator: string = ';'): TQuestion[] => {
     let strquest: string[] = csv.split('\n');
@@ -19,23 +19,20 @@ export const parseCSV = (csv: string, separator: string = ';'): TQuestion[] => {
 };
 
 export const getRandomExams = (
-    title: string,
-    descr: string,
-    date: string,
-    numExams: number,
-    numQuestions: number,
+    opt: Options,
     questions: TQuestion[]
 ): TExam[] => {
     let exams: TExam[] = [];
-    for (let i = 0; i < numExams; i++) {
-        let quest: TQuestion[] = getQuestions(questions, numQuestions);
+    for (let i = 0; i < opt.numExams; i++) {
+        let quest: TQuestion[] = getQuestions(questions, opt.numQuestions);
 
         if (quest && quest.length > 0) {
             exams.push({
-                title,
-                descr,
+                title: opt.title,
+                descr: opt.descr,
+                columns: opt.columns,
                 code: '',
-                date,
+                date: opt.date,
                 questions: quest,
             });
         }
